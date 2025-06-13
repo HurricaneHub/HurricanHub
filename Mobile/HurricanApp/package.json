@@ -1,14 +1,23 @@
 {
-  "name": "hurricanapp",
+"name": "hurricanapp",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "setup": "npm install && npx expo install --check",
+    "clean": "rm -rf node_modules && rm -rf .expo && rm -rf dist",
+    "reinstall": "npm run clean && npm run setup",
+    "lint": "eslint .",
+    "test": "jest",
+    "build:android": "eas build -p android",
+    "build:ios": "eas build -p ios",
+    "publish": "expo publish",
+    "eject": "expo eject",
+    "doctor": "npx expo-doctor",
+    "clear-cache": "expo start -c"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
