@@ -1,68 +1,80 @@
-<<<<<<< HEAD
-# HurricanHub
-Savior of the people. Dana
-=======
-# USF_APP
+# USF_APP / HurricanHub
 
 ## Project Overview
-USF_APP is a full-stack application that utilizes Next.js for the frontend, Node.js with PostgreSQL for the backend, and React Native for the mobile application. This project is structured to provide a clear separation between the frontend, backend, and mobile components, allowing for easier development and maintenance.
+USF_APP is a full-stack application that brings together multiple components:
+- A **Spring Boot backend** using Java and Maven (with an RDS-compatible PostgreSQL database).
+- A **Next.js frontend** for the web.
+- A **React Native mobile app** built with Expo for Android, iOS, and web.
+
+This project is structured to provide a clear separation between the frontend, backend, and mobile applications for easier development and maintenance.
 
 ---
 
 ## Technologies Used
-- **Frontend**: 
+- **Backend (Spring Boot):**
+  - Java 17
+  - Spring Boot 3.1.0
+  - Maven
+  - PostgreSQL (integrated with Amazon RDS or Docker)
+- **Frontend:**
   - Next.js
-  - React
-  - TypeScript
-  - CSS
-
-- **Backend**: 
-  - Node.js
-  - Express
-  - TypeScript
-  - PostgreSQL
-
-- **Mobile**:
-  - React Native
+  - React, TypeScript, CSS
+- **Mobile:**
+  - React Native with Expo
   - TypeScript
   - React Navigation
 
 ---
 
-## Project Structure
+## Repository Structure
+
 ```
 USF_APP
-├── frontend          # Frontend application using Next.js
-│   ├── src
-│   │   ├── pages     # Contains page components
-│   │   ├── components # Contains reusable components
-│   │   ├── styles    # Contains global styles
-│   │   └── utils     # Contains utility functions
-│   ├── package.json  # Frontend dependencies and scripts
-│   ├── tsconfig.json # TypeScript configuration for frontend
-│   └── README.md     # Frontend documentation
-├── backend           # Backend application using Node.js
-│   ├── src
-│   │   ├── controllers # Contains request handlers
-│   │   ├── models      # Contains database models
-│   │   ├── routes      # Contains route definitions
-│   │   ├── db         # Contains database connection logic
-│   │   └── app.ts     # Entry point for the backend application
-│   ├── package.json   # Backend dependencies and scripts
-│   ├── tsconfig.json  # TypeScript configuration for backend
-│   └── README.md      # Backend documentation
-├── mobile            # Mobile application using React Native
-│   ├── src
-│   │   ├── screens    # Contains screen components
-│   │   ├── components # Contains reusable components
-│   │   ├── styles     # Contains global styles
-│   │   └── utils      # Contains utility functions
-│   ├── package.json   # Mobile dependencies and scripts
-│   ├── tsconfig.json  # TypeScript configuration for mobile
-│   └── README.md      # Mobile documentation
-├── docker-compose.yml # Docker configuration for services
-└── README.md          # Overall project documentation
+└── HurricanHub/
+    ├── backend
+    │   ├── springboot/         # Spring Boot backend (Maven project)
+    │   │   ├── pom.xml
+    │   │   └── src/
+    │   │       ├── main/
+    │   │       │   ├── java/
+    │   │       │   │   └── com/example/hurricanhub/HurricanHubApplication.java
+    │   │       │   └── resources/
+    │   │       │       └── application.properties
+    │   └── backend_Qu/         # Other backend related code (Node.js based)
+    ├── frontend/               # Next.js frontend
+    │   ├── src/
+    │   │   ├── pages
+    │   │   ├── components
+    │   │   ├── styles
+    │   │   └── utils
+    │   ├── package.json
+    │   └── tsconfig.json
+    ├── mobile/                 # Mobile application projects
+    │   └── HurricanApp/        # Expo-based React Native project
+    │       ├── app/
+    │       ├── app.json
+    │       ├── package.json
+    │       └── README.md        # Mobile app specific documentation
+    ├── docker-compose.yml      # Docker configuration for services
+    └── README.md               # Overall project documentation (this file)
 ```
+
+---
+
+## Environment Variables
+
+Sensitive configuration details are managed through environment variables. Create a `.env` file at the repository root (do not commit this file):
+
+```
+# .env (example content)
+DB_URL=jdbc:postgresql://<your-rds-endpoint>:5432/mydatabase
+DB_USERNAME=<your_rds_username>
+DB_PASSWORD=<your_rds_password>
+```
+
+Each component should be configured to load these variables:
+- Spring Boot (via system environment or helper libraries)
+- Node.js and Expo projects using [dotenv](https://www.npmjs.com/package/dotenv) or similar methods
 
 ---
 
@@ -70,119 +82,120 @@ USF_APP
 
 ### Prerequisites
 - Node.js
-- PostgreSQL
-- Docker (optional, for containerized setup)
-- Python (optional, for virtual environment setup)
+- Java 17, Maven
+- PostgreSQL (or Amazon RDS)
+- Docker (optional, for containerized services)
+- Expo CLI (for Mobile app)
+- Git
 
----
+### Installation Steps
 
-### Installation
+#### 1. Clone the Repository
+```bash
+git clone <repository-url>
+cd USF_APP
+```
 
-#### **Step 1: Clone the Repository**
-1. Open your terminal and navigate to the directory where you want to clone the project.
-2. Run the following command to clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd USF_APP
-   ```
-
-#### **Step 2: Create a New Branch**
-To avoid pushing changes directly to the production branch, create a new branch for your work:
+#### 2. Create a Branch
 ```bash
 git checkout -b <your-branch-name>
 ```
-Replace `<your-branch-name>` with a descriptive name for your branch (e.g., `feature-xyz`).
+Replace `<your-branch-name>` with a descriptive branch name.
 
-#### **Step 3: Set Up a Virtual Environment**
-Although this project primarily uses Node.js, setting up a virtual environment can help isolate dependencies for Python-based tools or scripts (if needed). Follow these steps:
+#### 3. (Optional) Set Up a Python Virtual Environment
+If needed for Python-based tools:
+```bash
+python -m venv .venv
+# Activate on Windows:
+.venv\Scripts\activate
+# On macOS/Linux:
+source .venv/bin/activate
+```
 
-1. Create a virtual environment:
-   ```bash
-   python -m venv .venv
-   ```
-
-2. Activate the virtual environment:
-   - On **Windows**:
-     ```bash
-     .venv\Scripts\activate
-     ```
-   - On **macOS/Linux**:
-     ```bash
-     source .venv/bin/activate
-     ```
-
-3. Once activated, you’ll see the virtual environment name in your terminal prompt.
-
-#### **Step 4: Install Dependencies**
-This project uses a `Makefile` to simplify dependency installation. Run the following command to install all dependencies for the backend, frontend, mobile app, and database:
-
+#### 4. Install Dependencies with Makefile
+From the root of `HurricanHub`, run:
 ```bash
 make install-all
 ```
-
-This will:
-- Install backend dependencies (Node.js, Express, PostgreSQL client, etc.).
-- Install frontend dependencies (React, Next.js, TypeScript, etc.).
-- Install mobile app dependencies (React Native, navigation libraries, etc.).
-
----
-
-### Running the Application
-
-#### **Backend Server**
-Start the backend server:
-```bash
-make start-backend
-```
-The backend server will run on `http://localhost:4000`.
-
-#### **Frontend Server**
-Start the frontend server:
-```bash
-make start-frontend
-```
-The frontend server will run on `http://localhost:3000`.
-
-#### **Mobile Development Server**
-Start the mobile development server:
-```bash
-make start-mobile
-```
-This will start the React Native development server. You can run the app on an emulator or a physical device.
+This command installs dependencies for:
+- Backend (Node.js for backend_Qu, Spring Boot can be built via Maven)
+- Frontend (Next.js)
+- Mobile (React Native/Expo)
 
 ---
 
-### Docker Setup
-If you prefer to use Docker, you can run the application using the provided `docker-compose.yml` file:
+## Running the Application
+
+### Backend (Spring Boot)
+1. Update your backend configuration in `backend/springboot/src/main/resources/application.properties` to load environment variables:
+   ```properties
+   spring.datasource.url=${DB_URL}
+   spring.datasource.username=${DB_USERNAME}
+   spring.datasource.password=${DB_PASSWORD}
+   spring.jpa.hibernate.ddl-auto=update
+   ```
+2. Open a terminal in `HurricanHub/backend/springboot` and start the backend:
+   ```bash
+   mvn spring-boot:run
+   ```
+   The backend runs on [http://localhost:8080](http://localhost:8080) by default.
+
+### Frontend (Next.js)
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+   The frontend server will be available at [http://localhost:3000](http://localhost:3000).
+
+### Mobile (Expo)
+1. Navigate to the mobile app directory:
+   ```bash
+   cd mobile/HurricanApp
+   npm install
+   npx expo start
+   ```
+2. From Expo DevTools:
+   - Run on an Android emulator/device using `npm run android`
+   - For iOS (macOS only), use `npm run ios`
+   - Or run on the web using `npm run web`
+
+---
+
+## Docker Setup
+
+If you prefer containerization, use the provided `docker-compose.yml` to spin up the necessary services:
 ```bash
 docker-compose up
 ```
+Ensure that Docker settings (and any RDS configurations) align with your environment.
 
 ---
 
-### Clean and Reinstall Dependencies
-If you encounter issues or need to reset the project, you can clean and reinstall all dependencies:
+## Clean/Reinstall Dependencies
 
-1. Clean all `node_modules` directories:
-   ```bash
-   make clean
-   ```
-
-2. Reinstall all dependencies:
-   ```bash
-   make reinstall
-   ```
+To clear and reinstall dependencies, use:
+```bash
+make clean
+make reinstall
+```
 
 ---
 
-### Contributing
-Contributions are welcome! Please follow these steps:
+## Contributing
+
+Contributions are welcome! Follow these steps:
 1. Fork the repository.
 2. Create a new branch for your feature or bug fix.
-3. Submit a pull request with a detailed description of your changes.
+3. Submit a pull request with detailed changes.
 
 ---
 
-### License
+## License
+
 This project is licensed under the MIT License. See the `LICENSE` file for details.
->>>>>>> origin/master
+
+---
+
+Happy coding!
